@@ -1,12 +1,22 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
     <router-view/>
+    <GlobalAlert :alert="getGlobalAlert" />
   </div>
 </template>
+<script>
+import GlobalAlert from '@src/components/ui/global/Alert.vue'
+import { mapGetters } from 'vuex'
+
+export default {
+  components: {
+    GlobalAlert
+  },
+  computed: {
+    ...mapGetters(['getGlobalAlert'])
+  },
+}
+</script>
 
 <style lang="less">
 #app {

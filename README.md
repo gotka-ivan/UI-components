@@ -1,24 +1,7 @@
-# game
+# UI компоненты
 
-## Project setup
-```
-npm install
-```
+### Самописная библиотека всех UI компонентов
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+#### client/src/components/ui/
 
-### Compiles and minifies for production
-```
-npm run build
-```
 
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).

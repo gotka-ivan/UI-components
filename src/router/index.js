@@ -1,23 +1,47 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import store from '@src/store/index.js'
+
 
 Vue.use(VueRouter)
 
 const routes = [
-  {
-    path: '/',
-    name: 'Home',
-    component: Home
-  },
-  {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
+    {
+        path: '/',
+        name: 'families',
+        beforeEnter: async (to, from, next) => {
+          if (!store.state.family.familyList.length)  await store.dispatch('family/getFamilyList')
+          next()
+        },
+        component: () => import('@src/views/Families.vue').then(c => c.default)
+      },
+      {
+        path: '/family',
+        component: {
+          template: `<router-view />`
+        },
+        children: [
+          {
+            path: '',
+            name: 'family-add',
+            beforeEnter: async (to, from, next) => {
+              store.commit('family/reloadFamilyInfo')
+              next()
+            },
+            component: () => import('@src/views/Family.vue').then(c => c.default)
+          },
+          {
+            path: ':id',
+            name: 'family-read',
+            beforeEnter: async (to, from, next) => {
+              store.dispatch('family/getFamilyInfo', Number(to.params.id))
+              next()
+            },
+            component: () => import('@src/views/Family.vue').then(c => c.default)
+          },
+        ]
+      }
+
 ]
 
 const router = new VueRouter({
